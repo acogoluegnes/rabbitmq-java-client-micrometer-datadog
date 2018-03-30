@@ -75,13 +75,10 @@ public class RabbitMqDatadog {
 
             Connection connection = connectionFactory.newConnection();
             Channel channel = connection.createChannel();
-
             String queue = channel.queueDeclare().getQueue();
-
             channel.basicConsume(queue, true, (ctag, msg) -> {
             }, (ctag) -> {
             });
-
             executor.submit(() -> {
                 Random random = new Random();
                 int offset = dc.length() * 10;
