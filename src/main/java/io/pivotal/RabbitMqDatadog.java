@@ -15,6 +15,7 @@ import io.micrometer.core.instrument.binder.system.ProcessorMetrics;
 import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
 import io.micrometer.datadog.DatadogConfig;
 import io.micrometer.datadog.DatadogMeterRegistry;
+import io.micrometer.jmx.JmxConfig;
 import io.micrometer.jmx.JmxMeterRegistry;
 
 import java.net.InetAddress;
@@ -55,7 +56,7 @@ public class RabbitMqDatadog {
         for (String dc : new String[] { "us", "europe", "asia" }) {
             CompositeMeterRegistry compositeMeterRegistry = new CompositeMeterRegistry();
             MeterRegistry datadogRegistry = new DatadogMeterRegistry(config, Clock.SYSTEM);
-            MeterRegistry jmxRegistry = new JmxMeterRegistry(key -> null, Clock.SYSTEM);
+            MeterRegistry jmxRegistry = new JmxMeterRegistry(JmxConfig.DEFAULT, Clock.SYSTEM);
 
             Tags tags = Tags.of("host", hostname, "dc", dc);
             new ClassLoaderMetrics(tags).bindTo(compositeMeterRegistry);
